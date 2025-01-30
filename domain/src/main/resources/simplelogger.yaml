@@ -1,0 +1,7 @@
+org:
+  slf4j:
+    simpleLogger:
+      log:
+        io:
+          micronaut: info
+      defaultLogLevel: info

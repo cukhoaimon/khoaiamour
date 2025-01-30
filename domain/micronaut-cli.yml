@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: org.cukhoaimon
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle
+features: [app-name, gradle, http-client, jetty-server, junit, kotlin, kotlin-application, ksp, micronaut-aot, micronaut-build, micronaut-http-validation, openapi, properties, readme, serialization-jackson, shade, slf4j-simple, static-resources, swagger-ui]
