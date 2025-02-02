@@ -6,13 +6,19 @@ import java.util.Properties
 import javax.sql.DataSource
 
 internal interface DataSourceFactory {
-	fun create(dbConfig: DatabaseConfig, pool: ConnectionPoolConfig): DataSource
+	fun create(kind: DatabaseKind, dbConfig: DatabaseConfig, pool: ConnectionPoolConfig): DataSource
 
 	companion object {
 		val HIKARI = object : DataSourceFactory {
-			override fun create(dbConfig: DatabaseConfig, pool: ConnectionPoolConfig): DataSource {
+			override fun create(kind: DatabaseKind, dbConfig: DatabaseConfig, pool: ConnectionPoolConfig): DataSource {
 				return HikariDataSource(
-					pool.hikariConfig(dbConfig.write),
+					pool.hikariConfig(
+						if (kind == DatabaseKind.WRITE) {
+							dbConfig.write
+						} else {
+							dbConfig.read
+						}
+					),
 				)
 			}
 
@@ -32,7 +38,6 @@ internal interface DataSourceFactory {
 			 * | Read committed   | Not possible           | Possible           | Possible               | Possible              |
 			 * | Repeatable read  | Not possible           | Not possible       | Allowed, but not in PG | Possible              |
 			 * | Serializable     | Not possible           | Not possible       | Not possible           | Not possible          |
-			 *
 			 */
 			fun ConnectionPoolConfig.hikariConfig(properties: Properties): HikariConfig {
 				val config = HikariConfig(properties)

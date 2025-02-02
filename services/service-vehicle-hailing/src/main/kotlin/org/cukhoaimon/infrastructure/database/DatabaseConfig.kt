@@ -17,6 +17,17 @@ internal val DatabaseConfig.write: Properties
 			password = password,
 			database = name,
 			url = url,
+			portNumber = 5433
+		)
+	}
+
+internal val DatabaseConfig.read: Properties
+	get(): Properties {
+		return properties(
+			user = username,
+			password = password,
+			database = name,
+			url = url,
 			portNumber = portNumber
 		)
 	}
